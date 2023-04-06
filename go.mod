@@ -8,7 +8,7 @@ require (
 	github.com/prometheus/client_golang v1.11.1
 	github.com/prometheus/common v0.26.0
 	github.com/prometheus/exporter-toolkit v0.5.0
-	github.com/stmcginnis/gofish v0.14.0
+	github.com/stmcginnis/gofish v0.14.1-0.20230404133511-f48993cacd3d
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
 	gopkg.in/yaml.v2 v2.4.0
 )
