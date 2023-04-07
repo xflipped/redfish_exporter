@@ -3,6 +3,7 @@ package collector
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/stmcginnis/gofish/redfish"
@@ -77,6 +78,11 @@ func parseLogEntry(ch chan<- prometheus.Metric, desc *prometheus.Desc, collector
 	logEntryLabelValues := []string{collectorID, logServiceName, logServiceID, logEntryName, logEntryID, logEntryCode, logEntryType, logEntryMessageID, logEntrySensorNumber, logEntrySensorType}
 
 	if logEntrySeverityStateValue, ok := parseCommonSeverityState(logEntrySeverityState); ok {
-		ch <- prometheus.MustNewConstMetric(desc, prometheus.GaugeValue, logEntrySeverityStateValue, logEntryLabelValues...)
+		// TODO: add config
+		t, err := time.Parse(time.RFC3339, logEntry.EventTimestamp)
+		if err != nil {
+			return
+		}
+		ch <- prometheus.NewMetricWithTimestamp(t, prometheus.MustNewConstMetric(desc, prometheus.GaugeValue, logEntrySeverityStateValue, logEntryLabelValues...))
 	}
 }
